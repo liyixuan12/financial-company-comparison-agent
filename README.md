@@ -16,13 +16,58 @@
 
 ## 产品截图
 
-建议在作品集中补充以下截图：
+将截图导出为 PNG 或 WebP，放入 **`docs/images/`** 目录（与下方文件名一致即可；GitHub README 会自动渲染相对路径图片）。当前仓库已包含一套与下表同名的示例图，可直接 `git push`；若你更新了界面，覆盖同名文件即可。
 
-- 首页输入区与侧边栏架构说明
-- 核心指标对比图表
-- 研究优先级雷达图与评分表
-- AI 分析报告展开页
-- Dify Workflow 编排画布
+| 建议文件名 | 内容说明 |
+|-----------|----------|
+| `streamlit-home-sidebar.png` | 首页股票输入、运行模式与侧边栏 |
+| `streamlit-core-metrics.png` | 核心指标对比图表（柱状图 / 堆叠图等） |
+| `streamlit-radar-scores.png` | 研究优先级雷达图与评分表 |
+| `streamlit-ai-report.png` | AI 分析报告展开区域 |
+| `dify-workflow-canvas.png` | Dify Workflow 编排画布（推荐提交裁剪后的 PNG；若从 Dify 导出超大内联 SVG，可本地保存为 `dify-workflow-canvas.source.svg`，该文件已在 `.gitignore` 中忽略，勿推送到远程） |
+
+把文件放到仓库后，在 README 中可使用下面片段（路径已按上表写好；若你改用 WebP，把扩展名改为 `.webp` 即可）：
+
+```markdown
+### Streamlit 界面
+
+![首页与侧边栏](docs/images/streamlit-home-sidebar.png)
+
+![核心指标对比](docs/images/streamlit-core-metrics.png)
+
+![雷达图与评分](docs/images/streamlit-radar-scores.png)
+
+![AI 分析报告](docs/images/streamlit-ai-report.png)
+
+### Dify 工作流
+
+![Dify Workflow 画布](docs/images/dify-workflow-canvas.png)
+```
+
+你也可以把多张图并排成一行（同一行内多个 `![...](...)`），例如：
+
+```markdown
+![首页](docs/images/streamlit-home-sidebar.png)
+![指标](docs/images/streamlit-core-metrics.png)
+```
+
+### 嵌入版（README 直接展示）
+
+下列图片路径与上表一致，已与文档一并维护；替换 `docs/images/` 下同名 PNG 后推送即可更新展示。
+
+### Streamlit 界面
+
+![首页与侧边栏](docs/images/streamlit-home-sidebar.png)
+
+![核心指标对比](docs/images/streamlit-core-metrics.png)
+
+![雷达图与评分](docs/images/streamlit-radar-scores.png)
+
+![AI 分析报告](docs/images/streamlit-ai-report.png)
+
+### Dify 工作流
+
+![Dify Workflow 画布](docs/images/dify-workflow-canvas.png)
 
 ## 功能概览
 
@@ -114,12 +159,15 @@ Streamlit 可视化展示
 ├── app.py                 # Streamlit 应用入口
 ├── requirements.txt       # Python 依赖
 ├── README.md              # 本说明
+├── .streamlit/
+│   └── secrets.toml.example   # Secrets 模板（复制为 secrets.toml，勿提交密钥）
 ├── workflow/
 │   └── dify-workflow-export.yml   # Dify Workflow 导出（导入 Dify 复现后端）
 └── docs/
     ├── README.md          # 文档索引
     ├── PRD.md             # 产品需求文档
     ├── dify-product-design.md     # Dify 与产品设计说明
+    ├── images/            # README 产品截图（*.png；大体积 *.source.svg 见 .gitignore）
     └── samples/reports/   # 示例报告
 ```
 
@@ -152,6 +200,37 @@ streamlit run app.py
 
 启动后，浏览器会打开 Streamlit 页面。默认可以选择「离线演示（无需后端）」模式查看完整效果。
 
+## 公开部署（给他人一个链接用你的 Dify）
+
+目标：**别人只打开网页、不填你的 API Key**，由部署环境代你调用 Dify。
+
+### 1. 前提：Dify 必须能从公网访问
+
+Streamlit 部署在云端后，会向你填写的 `DIFY_API_URL` 发 HTTP 请求。若 Dify 只跑在你本机 `localhost`，云端应用**连不上**。你需要任选其一：
+
+- 使用 **Dify 官方云**或已公网可访问的自建实例；或  
+- 自建 Dify 配好 **HTTPS + 域名**（或内网穿透仅作演示，注意安全与费用）。
+
+### 2. 把密钥放在服务器侧（不要写进代码、不要提交 Git）
+
+任选一种配置方式（同时提供 `DIFY_API_URL` 与 `DIFY_API_KEY` 即可）：
+
+| 方式 | 说明 |
+|------|------|
+| 环境变量 | 启动前设置 `DIFY_API_URL`、`DIFY_API_KEY`（Docker / VPS / PaaS 均支持） |
+| Streamlit Secrets | 本地：复制 `.streamlit/secrets.toml.example` 为 `.streamlit/secrets.toml` 并填写；**Streamlit Community Cloud**：App → Settings → Secrets，粘贴同名 TOML |
+
+配置成功后，在应用里选择 **「Dify API」** 时会出现 **「部署模式：已使用服务器上的 Dify 配置」**，访客无需再填 Key。
+
+### 3. 托管 Streamlit 应用
+
+常见做法：**把本仓库推到 GitHub**，用 [Streamlit Community Cloud](https://streamlit.io/cloud) 连接仓库、指定 `app.py` 部署；在 Cloud 的 Secrets 里写入 `DIFY_API_URL` / `DIFY_API_KEY`。部署完成后把 `https://xxx.streamlit.app` 链接发给对方即可。
+
+### 4. 安全与成本提示
+
+- 公开链接等于任何人可触发你的 Workflow，可能消耗 **Dify / LLM / 外部金融 API** 额度；应在 Dify 侧做限流、鉴权或仅小范围分享链接。  
+- 当前应用**未**内置登录；若要对指定客户开放，需另行增加鉴权（如 Streamlit 商业能力、反向代理 + SSO、或自建薄后端转发）。
+
 ## Dify Workflow 使用方式
 
 如果需要使用真实后端模式：
@@ -162,7 +241,8 @@ streamlit run app.py
    - `FMP_API_KEY`
 3. 发布 Workflow 并获取 API Key。
 4. 在 Streamlit 侧边栏选择 `Dify API`。
-5. 填写 Dify Base URL 和 API Key。
+5. **本地调试**：填写 Dify Base URL 和 API Key。  
+   **公开部署**：在服务器配置 `DIFY_API_URL` + `DIFY_API_KEY`（或 Streamlit Secrets），访客无需填写，见上文「公开部署」。
 6. 选择数据源模式并开始分析。
 
 ## Dify API 输出约定

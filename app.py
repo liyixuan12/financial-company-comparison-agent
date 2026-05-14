@@ -10,6 +10,7 @@
 """
 
 import json
+import os
 from typing import Any
 
 import pandas as pd
@@ -190,6 +191,28 @@ def _to_float(value: Any) -> float | None:
         return None
 
 
+def _dify_config_from_deploy() -> tuple[str, str]:
+    """供公开部署使用：从环境变量或 Streamlit Secrets 读取 Dify，访客无需在页面填写 API Key。"""
+    url = (os.environ.get("DIFY_API_URL") or "").strip()
+    key = (os.environ.get("DIFY_API_KEY") or "").strip()
+    if url and key:
+        return url, key
+    try:
+        cfg = st.secrets
+    except (FileNotFoundError, RuntimeError, AttributeError, TypeError):
+        return url, key
+    if not url:
+        url = str(cfg.get("DIFY_API_URL", "") or "").strip()
+    if not key:
+        key = str(cfg.get("DIFY_API_KEY", "") or "").strip()
+    if (not url or not key):
+        sub = cfg.get("dify")
+        if isinstance(sub, dict):
+            url = url or str(sub.get("api_url", "") or "").strip()
+            key = key or str(sub.get("api_key", "") or "").strip()
+    return url, key
+
+
 # ──────────────── Dify API integration ───────────────────────────────
 
 
@@ -316,11 +339,30 @@ with st.sidebar:
         help="离线演示使用缓存数据展示完整 UI；Dify API 连接后端获取实时数据",
     )
 
+    deploy_url, deploy_key = _dify_config_from_deploy()
+    has_server_dify = bool(deploy_url and deploy_key)
+
     dify_url = dify_key = ""
     dify_data_mode = "Demo Mode"
     if run_mode == "Dify API":
-        dify_url = st.text_input("Dify Base URL", value="http://localhost", help="Dify 服务地址")
-        dify_key = st.text_input("Dify API Key", type="password")
+        if has_server_dify:
+            dify_url, dify_key = deploy_url, deploy_key
+            st.success("部署模式：已使用服务器上的 Dify 配置，访客无需填写 API Key。")
+            st.caption(
+                "密钥来自环境变量 `DIFY_API_URL` / `DIFY_API_KEY` 或 `.streamlit/secrets.toml`（勿提交到 Git）。"
+            )
+        else:
+            dify_url = st.text_input(
+                "Dify Base URL",
+                value="http://localhost",
+                help="不含路径前缀，例如 https://api.dify.ai 或本地 http://127.0.0.1:5001",
+            )
+            dify_key = st.text_input(
+                "Dify API Key",
+                type="password",
+                help="Dify 控制台 → 该 Workflow 应用 → API 访问 → 复制「API 密钥」",
+            )
+            st.caption("须同时填写 Base URL 与 API Key 后，再点击主区域「开始分析」。")
         dify_data_mode = st.selectbox(
             "Dify 数据源",
             ["Demo Mode", "FMP", "Live API Mode"],
@@ -405,13 +447,21 @@ if run_btn:
     if "离线" in run_mode:
         result = CACHED_DEMO_RESPONSE
     else:
-        if not dify_url or not dify_key:
-            st.error("请在左侧填写 Dify Base URL 和 API Key。")
+        url_ok = bool(dify_url and str(dify_url).strip())
+        key_ok = bool(dify_key and str(dify_key).strip())
+        if not url_ok and not key_ok:
+            st.error("请在左侧边栏填写 **Dify Base URL** 与 **Dify API Key**（当前两项均为空）。")
+            st.stop()
+        if not url_ok:
+            st.error("请在左侧边栏填写 **Dify Base URL**（当前为空）。")
+            st.stop()
+        if not key_ok:
+            st.error("请在左侧边栏填写 **Dify API Key**（当前为空）。密钥在 Dify：该应用 → **API 访问** → 复制 API 密钥。")
             st.stop()
         with st.spinner("正在调用 Dify Workflow 后端 …"):
             try:
                 result = call_dify_workflow(
-                    dify_url, dify_key,
+                    dify_url.strip(), dify_key.strip(),
                     symbols_raw.strip(), analysis_focus, language, dify_data_mode,
                 )
             except Exception as exc:

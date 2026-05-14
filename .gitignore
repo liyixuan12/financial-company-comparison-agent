@@ -45,3 +45,6 @@ Thumbs.db
 *.log
 *.tmp
 .cache/
+
+# Dify/React-Flow 导出的大型内联 SVG（本地可留；README 使用裁剪后的 dify-workflow-canvas.png）
+docs/images/dify-workflow-canvas.source.svg
