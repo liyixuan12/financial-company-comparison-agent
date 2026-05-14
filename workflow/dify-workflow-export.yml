@@ -1,0 +1,1654 @@
+app:
+  description: 基于 Dify Workflow 的金融公司基本面对比助手。用户输入多个美股股票代码后，系统自动调用公开金融数据 API，清洗关键指标，并生成估值、盈利能力、成长性和风险维度的结构化对比报告。内容仅用于公开信息整理和学习参考，不构成投资建议。
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: Financial Company Comparison Agent
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/ollama:0.1.4@795e94415da0ef3713d23726be045e96dcb64b63bba16e9c1b426329f66f6e40
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: 你的真实 Alpha Vantage API Key
+    id: 7b06be68-5b13-42dc-91f5-a8e54c90e88a
+    name: ALPHA_VANTAGE_API_KEY
+    selector:
+    - env
+    - ALPHA_VANTAGE_API_KEY
+    value: ''
+    value_type: secret
+  - description: Your FMP (Financial Modeling Prep) API Key
+    id: 5eb41dc6-adf4-4b64-a334-5a4dbbf89b29
+    name: FMP_API_KEY
+    selector:
+    - env
+    - FMP_API_KEY
+    value: ''
+    value_type: secret
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1778402132438--1778402402760-target
+      selected: false
+      source: '1778402132438'
+      sourceHandle: source
+      target: '1778402402760'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778407686281'
+        sourceType: iteration-start
+        targetType: http-request
+      id: 1778407686281start-source-1778407836584-target
+      selected: false
+      source: 1778407686281start
+      sourceHandle: source
+      target: '1778407836584'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778407686281'
+        sourceType: http-request
+        targetType: code
+      id: 1778407836584-source-1778408693721-target
+      selected: false
+      source: '1778407836584'
+      sourceHandle: source
+      target: '1778408693721'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1778410069031-source-1778420750020-target
+      selected: false
+      source: '1778410069031'
+      sourceHandle: source
+      target: '1778420750020'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1778420403446-source-1778423052604-target
+      selected: false
+      source: '1778420403446'
+      sourceHandle: source
+      target: '1778423052604'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1778423052604-source-1778410069031-target
+      selected: false
+      source: '1778423052604'
+      sourceHandle: source
+      target: '1778410069031'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1778402402760-source-1778473048535-target
+      selected: false
+      source: '1778402402760'
+      sourceHandle: source
+      target: '1778473048535'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1778473048535-true-1778473215429-target
+      selected: false
+      source: '1778473048535'
+      sourceHandle: 'true'
+      target: '1778473215429'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: if-else
+      id: 1778473048535-false-1778407686281-target
+      selected: false
+      source: '1778473048535'
+      sourceHandle: 'false'
+      target: '1778500000001'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1778473215429-source-1778473730240-target
+      selected: false
+      source: '1778473215429'
+      sourceHandle: source
+      target: '1778473730240'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: variable-aggregator
+      id: 1778407686281-source-1778473730240-target
+      source: '1778407686281'
+      sourceHandle: source
+      target: '1778473730240'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: code
+      id: 1778473730240-source-1778420403446-target
+      source: '1778473730240'
+      sourceHandle: source
+      target: '1778420403446'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: iteration
+      id: 1778500000001-true-1778500000010-target
+      selected: false
+      source: '1778500000001'
+      sourceHandle: 'true'
+      target: '1778500000010'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: iteration
+      id: 1778500000001-false-1778407686281-target
+      selected: false
+      source: '1778500000001'
+      sourceHandle: 'false'
+      target: '1778407686281'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: variable-aggregator
+      id: 1778500000010-source-1778473730240-target
+      source: '1778500000010'
+      sourceHandle: source
+      target: '1778473730240'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        sourceType: iteration-start
+        targetType: http-request
+      id: 1778500000010start-source-1778500000011-target
+      selected: false
+      source: 1778500000010start
+      sourceHandle: source
+      target: '1778500000011'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        sourceType: http-request
+        targetType: http-request
+      id: 1778500000011-source-1778500000012-target
+      selected: false
+      source: '1778500000011'
+      sourceHandle: source
+      target: '1778500000012'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        sourceType: http-request
+        targetType: http-request
+      id: 1778500000012-source-1778500000014-target
+      selected: false
+      source: '1778500000012'
+      sourceHandle: source
+      target: '1778500000014'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        sourceType: http-request
+        targetType: http-request
+      id: 1778500000014-source-1778500000015-target
+      selected: false
+      source: '1778500000014'
+      sourceHandle: source
+      target: '1778500000015'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        sourceType: http-request
+        targetType: http-request
+      id: 1778500000015-source-1778500000016-target
+      selected: false
+      source: '1778500000015'
+      sourceHandle: source
+      target: '1778500000016'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        sourceType: http-request
+        targetType: code
+      id: 1778500000016-source-1778500000013-target
+      selected: false
+      source: '1778500000016'
+      sourceHandle: source
+      target: '1778500000013'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    nodes:
+    - data:
+        author: liyixuan12
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"请输入
+          2-5 个美股股票代码，用英文逗号分隔，例如 AAPL, MSFT, NVDA","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1778401862775'
+      position:
+        x: 80
+        y: 376.3148741268498
+      positionAbsolute:
+        x: 80
+        y: 376.3148741268498
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        desc: yes 表示使用内置示例数据，no 表示调用 Alpha Vantage API
+        selected: false
+        title: 用户输入
+        type: start
+        variables:
+        - default: AAPL, MSFT
+          hint: ''
+          label: 股票代码
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: symbols
+        - default: 综合对比
+          hint: ''
+          label: 分析重点
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: analysis_focus
+        - default: 中文
+          hint: ''
+          label: 输出语言
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: language
+        - default: Demo Mode
+          hint: ''
+          label: 数据模式
+          options:
+          - Demo Mode
+          - Live API Mode
+          - FMP
+          placeholder: ''
+          required: true
+          type: select
+          variable: data_mode
+      height: 231
+      id: '1778402132438'
+      position:
+        x: 47.86898138990017
+        y: 337.19749835260905
+      positionAbsolute:
+        x: 47.86898138990017
+        y: 337.19749835260905
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(symbols: str) -> dict:\n    if not symbols:\n        return\
+          \ {\"symbol_list\": []}\n\n    symbol_list = [\n        s.strip().upper()\n\
+          \        for s in symbols.replace(\"，\", \",\").split(\",\")\n        if\
+          \ s.strip()\n    ]\n\n    symbol_list = symbol_list[:5]\n\n    return {\n\
+          \        \"symbol_list\": symbol_list\n    }"
+        code_language: python3
+        outputs:
+          symbol_list:
+            children: null
+            type: array[string]
+        selected: false
+        title: Parse Symbols
+        type: code
+        variables:
+        - value_selector:
+          - '1778402132438'
+          - symbols
+          value_type: string
+          variable: symbols
+      height: 52
+      id: '1778402402760'
+      position:
+        x: 349.86898138990017
+        y: 337.19749835260905
+      positionAbsolute:
+        x: 349.86898138990017
+        y: 337.19749835260905
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        flatten_output: true
+        height: 225
+        is_parallel: false
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1778402402760'
+        - symbol_list
+        output_selector:
+        - '1778408693721'
+        - company_data
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1778407686281start
+        title: Iterate Companies
+        type: iteration
+        width: 688
+      height: 225
+      id: '1778407686281'
+      position:
+        x: 1307.0696802045286
+        y: 454.16572827462903
+      positionAbsolute:
+        x: 1307.0696802045286
+        y: 454.16572827462903
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 688
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1778407686281start
+      parentId: '1778407686281'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1331.0696802045286
+        y: 522.165728274629
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778407686281'
+        method: get
+        params: 'function:OVERVIEW
+
+          symbol:{{#1778407686281.item#}}
+
+          apikey:{{#env.ALPHA_VANTAGE_API_KEY#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Get Company Overview
+        type: http-request
+        url: https://www.alphavantage.co/query
+        variables: []
+      height: 137
+      id: '1778407836584'
+      parentId: '1778407686281'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 1435.0696802045286
+        y: 522.165728274629
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "import json\n\n\ndef to_float(value):\n    try:\n        if value in\
+          \ [None, \"\", \"None\", \"N/A\", \"-\"]:\n            return None\n   \
+          \     return float(value)\n    except Exception:\n        return None\n\n\
+          \ndef format_large_number(value):\n    num = to_float(value)\n    if num\
+          \ is None:\n        return \"N/A\"\n\n    if num >= 1_000_000_000_000:\n\
+          \        return f\"{num / 1_000_000_000_000:.2f}T\"\n    elif num >= 1_000_000_000:\n\
+          \        return f\"{num / 1_000_000_000:.2f}B\"\n    elif num >= 1_000_000:\n\
+          \        return f\"{num / 1_000_000:.2f}M\"\n    else:\n        return str(num)\n\
+          \n\ndef format_percent(value):\n    num = to_float(value)\n    if num is\
+          \ None:\n        return \"N/A\"\n    return f\"{num * 100:.2f}%\"\n\n\n\
+          def main(api_response: str, symbol: str) -> dict:\n    try:\n        data\
+          \ = json.loads(api_response)\n    except Exception:\n        return {\n\
+          \            \"company_data\": {\n                \"symbol\": symbol,\n\
+          \                \"name\": \"N/A\",\n                \"status\": \"failed\"\
+          ,\n                \"error\": \"Failed to parse API response body.\"\n \
+          \           }\n        }\n\n    # Alpha Vantage 限流或额度提示\n    if isinstance(data,\
+          \ dict) and \"Information\" in data:\n        return {\n            \"company_data\"\
+          : {\n                \"symbol\": symbol,\n                \"name\": \"N/A\"\
+          ,\n                \"status\": \"failed\",\n                \"error\": \"\
+          Alpha Vantage API rate limit or daily quota reached.\"\n            }\n\
+          \        }\n\n    # API 错误信息\n    if isinstance(data, dict) and \"Error\
+          \ Message\" in data:\n        return {\n            \"company_data\": {\n\
+          \                \"symbol\": symbol,\n                \"name\": \"N/A\"\
+          ,\n                \"status\": \"failed\",\n                \"error\": data.get(\"\
+          Error Message\", \"Invalid API call.\")\n            }\n        }\n\n  \
+          \  # 没有有效 Symbol\n    if not data or \"Symbol\" not in data:\n        return\
+          \ {\n            \"company_data\": {\n                \"symbol\": symbol,\n\
+          \                \"name\": \"N/A\",\n                \"status\": \"failed\"\
+          ,\n                \"error\": \"No valid company data returned from Alpha\
+          \ Vantage.\"\n            }\n        }\n\n    company_data = {\n       \
+          \ \"symbol\": data.get(\"Symbol\", symbol),\n        \"name\": data.get(\"\
+          Name\", \"N/A\"),\n        \"status\": \"success\",\n        \"sector\"\
+          : data.get(\"Sector\", \"N/A\"),\n        \"industry\": data.get(\"Industry\"\
+          , \"N/A\"),\n        \"country\": data.get(\"Country\", \"N/A\"),\n    \
+          \    \"currency\": data.get(\"Currency\", \"N/A\"),\n        \"latest_quarter\"\
+          : data.get(\"LatestQuarter\", \"N/A\"),\n\n        \"market_cap\": format_large_number(data.get(\"\
+          MarketCapitalization\")),\n        \"revenue_ttm\": format_large_number(data.get(\"\
+          RevenueTTM\")),\n        \"gross_profit_ttm\": format_large_number(data.get(\"\
+          GrossProfitTTM\")),\n        \"ebitda\": format_large_number(data.get(\"\
+          EBITDA\")),\n\n        \"pe_ratio\": data.get(\"PERatio\", \"N/A\"),\n \
+          \       \"forward_pe\": data.get(\"ForwardPE\", \"N/A\"),\n        \"peg_ratio\"\
+          : data.get(\"PEGRatio\", \"N/A\"),\n        \"price_to_sales\": data.get(\"\
+          PriceToSalesRatioTTM\", \"N/A\"),\n        \"price_to_book\": data.get(\"\
+          PriceToBookRatio\", \"N/A\"),\n\n        \"eps\": data.get(\"EPS\", \"N/A\"\
+          ),\n        \"profit_margin\": format_percent(data.get(\"ProfitMargin\"\
+          )),\n        \"operating_margin\": format_percent(data.get(\"OperatingMarginTTM\"\
+          )),\n        \"roe\": format_percent(data.get(\"ReturnOnEquityTTM\")),\n\
+          \        \"roa\": format_percent(data.get(\"ReturnOnAssetsTTM\")),\n\n \
+          \       \"revenue_growth_yoy\": format_percent(data.get(\"QuarterlyRevenueGrowthYOY\"\
+          )),\n        \"earnings_growth_yoy\": format_percent(data.get(\"QuarterlyEarningsGrowthYOY\"\
+          )),\n\n        \"analyst_target_price\": data.get(\"AnalystTargetPrice\"\
+          , \"N/A\"),\n        \"analyst_rating_strong_buy\": data.get(\"AnalystRatingStrongBuy\"\
+          , \"N/A\"),\n        \"analyst_rating_buy\": data.get(\"AnalystRatingBuy\"\
+          , \"N/A\"),\n        \"analyst_rating_hold\": data.get(\"AnalystRatingHold\"\
+          , \"N/A\"),\n        \"analyst_rating_sell\": data.get(\"AnalystRatingSell\"\
+          , \"N/A\"),\n        \"analyst_rating_strong_sell\": data.get(\"AnalystRatingStrongSell\"\
+          , \"N/A\"),\n\n        \"week_52_high\": data.get(\"52WeekHigh\", \"N/A\"\
+          ),\n        \"week_52_low\": data.get(\"52WeekLow\", \"N/A\"),\n       \
+          \ \"beta\": data.get(\"Beta\", \"N/A\"),\n\n        \"description\": data.get(\"\
+          Description\", \"N/A\")[:600]\n    }\n\n    return {\n        \"company_data\"\
+          : company_data\n    }"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778407686281'
+        outputs:
+          company_data:
+            children: null
+            type: object
+        selected: false
+        title: Clean Company Data
+        type: code
+        variables:
+        - value_selector:
+          - '1778407836584'
+          - body
+          value_type: string
+          variable: api_response
+        - value_selector:
+          - '1778407686281'
+          - item
+          value_type: string
+          variable: symbol
+      height: 52
+      id: '1778408693721'
+      parentId: '1778407686281'
+      position:
+        x: 430
+        y: 68
+      positionAbsolute:
+        x: 1737.0696802045286
+        y: 522.165728274629
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen2.5:3b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - id: 2d046eee-2937-49d8-8a73-09da76309076
+          role: system
+          text: "你是一个金融信息整理助手，不是投资顾问。\n\n请基于输入的公司数据、系统生成的 Markdown 表格和研究优先级评分，输出金融公司基本面对比报告。\n\
+            \n【用户关注重点】\n{{#1778402132438.analysis_focus#}}\n\n【输出语言】\n{{#1778402132438.language#}}\n\
+            \n【公司 JSON 数据】\n{{#1778420403446.company_data_text#}}\n\n【成功获取数据的公司数量】\n\
+            {{#1778420403446.success_count#}}\n\n【失败公司数量】\n{{#1778420403446.failed_count#}}\n\
+            \n【绝对规则】\n1. 不允许输出买入、卖出、持有建议。\n2. 不允许预测未来股价、未来收益或未来增长率。\n3. 不允许承诺收益。\n\
+            4. 不允许提到“非公开信息”。\n5. 不允许使用“最值得投资”“推荐买入”“投资价值最高”“低估”“高估”等投资判断表达。\n6. 表格已经由系统生成，请原样插入，不要重新生成表格。\n\
+            7. 不要修改表格中的数字、百分号、T/B/M 单位。\n8. 仅当【成功获取数据的公司数量】严格小于 2 时，才说明横向对比能力有限；否则绝不输出此说明。\n\
+            9. 分析必须基于表格和 JSON 数据，不要使用模型记忆补充数据。\n10. 不要把 PEG Ratio 直接解释为“低估”或“高估”，只能说它可以辅助观察估值与成长性的匹配关系。\n\
+            11. 研究优先级评分仅用于帮助用户确定后续研究顺序，不代表投资建议、买卖建议或投资价值判断。\n\n【Markdown 表格规则】\n1.\
+            \ 系统提供的表格必须作为 Markdown 表格直接输出。\n2. 不要把表格放进代码块。\n3. 不要给表格添加引号。\n4. 不要转义竖线符号\
+            \ |。\n5. 表格前后必须保留一个空行。\n6. 如果表格列数过多，也不要改写表格内容。\n\n【研究优先级评分说明】\n研究优先级评分由代码节点基于公开\
+            \ API 指标计算，不是模型主观判断。\n\n评分维度包括：\n- 成长性\n- 盈利能力\n- 估值匹配\n- 波动风险\n\n注意：\n\
+            1. 综合评分越高，只能说明在当前公开指标维度下，该公司更值得后续研究。\n2. 综合评分不代表更适合投资。\n3. 排名不代表买入、卖出或持有建议。\n\
+            4. 如果成功获取数据的公司少于 2 家，该评分仅作为单公司指标展示，不构成横向排名。\n\n【输出完整性 - 最高优先级】\n你必须输出全部\
+            \ 11 个章节，缺一不可。在开始撰写前，先在内心确认这份清单：\n  1. 数据获取状态\n  2. 对比对象概览\n  3. 核心指标对比表（含\
+            \ 3.1 估值与盈利能力、3.2 成长性与波动）\n  4. 研究优先级评分\n  5. 估值水平分析\n  6. 盈利能力分析\n  7.\
+            \ 成长性分析\n  8. 分析师评级与市场波动\n  9. 风险与局限性\n  10. 后续研究问题\n  11. 免责声明\n\n每个章节都要按顺序输出，不允许跳过任何章节。第\
+            \ 3 节包含两个表格占位符必须原样插入。第 11 节必须输出完整的免责声明。\n\n【章节 3 必须完整输出】\n第 3 节是表格章节，结构如下，不允许省略：\n\
+            \n## 3. 核心指标对比表\n\n### 3.1 估值与盈利能力\n\n{{#1778420403446.valuation_profitability_table#}}\n\
+            \n### 3.2 成长性与波动\n\n{{#1778420403446.growth_risk_table#}}\n\n【数据真实性 -\
+            \ 严禁编造】\n- 若 analyst_rating_* 字段全部为 N/A，第 8 节必须明确说明\"当前数据源未提供分析师评级数据\"\
+            ，禁止编造\"评级分布较为均衡\"等说法。\n- 若 forward_pe 为 N/A，不要在第 5 节谈论 Forward PE。\n-\
+            \ 若 peg_ratio 为 N/A，不要在第 5 节谈论 PEG Ratio。\n- 第 7 节描述成长率时，所有大于 0 的增长率都属于正向增长。绝对不要把\
+            \ 65% 这样的数字描述为\"低\"。请用\"显著高于\"、\"较高\"、\"温和\"、\"小幅\"等中性量级描述词。\n\n请严格按照以下结构输出：\n\
+            \n# 金融公司基本面对比报告\n\n## 1. 数据获取状态\n\n{{#1778420403446.status_table#}}\n\n\
+            请用 1-2 句话说明：\n- 哪些公司数据获取成功；\n- 哪些公司数据获取失败；\n- 如果失败原因是 API 限流，请说明这可能与公开金融\
+            \ API（Alpha Vantage / FMP 等）的免费调用频率或每日额度限制有关。\n\n## 2. 对比对象概览\n\n{{#1778420403446.overview_table#}}\n\
+            \n【条件性说明 - 严格遵守】\n仔细查看上文【成功获取数据的公司数量】的数值：\n- 如果数值 ≥ 2：不要输出任何关于横向对比能力有限的说明，直接进入下一节。\n\
+            - 如果数值 = 1 或 0：才输出当前成功获取数据的公司少于 2 家，因此横向对比能力有限。\n绝对不要在数量 ≥ 2 时输出该警告句子。\n\
+            \n## 3. 核心指标对比表\n\n### 3.1 估值与盈利能力\n\n{{#1778420403446.valuation_profitability_table#}}\n\
+            \n### 3.2 成长性与波动\n\n{{#1778420403446.growth_risk_table#}}\n\n不要重新生成表格，不要修改表格中的单位和数字。不要把表格放入代码块，不要转义\
+            \ | 符号。\n\n\n\n## 4. 研究优先级评分\n\n{{#1778423052604.ranking_table#}}\n\n\
+            请说明：\n- 该评分不是投资建议；\n- 该评分基于当前 API 返回的有限公开指标计算；\n- 该评分用于帮助用户确定后续研究顺序；\n\
+            - 该评分采用样本内归一化方法，样本数量较少时，分数会放大相对差异；\n- 如果成功获取数据的公司少于 2 家，该评分不构成横向排名。\n\n\
+            不要使用“推荐买入”“最值得投资”“投资价值最高”等表达。\n\n## 5. 估值水平分析\n\n基于 PE Ratio、Forward PE、PEG\
+            \ Ratio 进行解释。\n\n要求：\n- 如果只有一家公司成功获取数据，只做单公司指标解释，不要强行横向对比。\n- 不要写“低估”“高估”“值得买入”等判断。\n\
+            - 可以说明：较高 PE 可能反映市场对成长性的预期，也可能意味着后续需要验证盈利增长是否支撑当前估值水平。\n- PEG Ratio 只能作为估值与成长性匹配关系的辅助参考。\n\
+            - 如果没有行业均值或同行均值，不得说“高于市场平均水平”“低于行业平均水平”。\n\n## 6. 盈利能力分析\n\n基于 Profit\
+            \ Margin、Operating Margin、ROE、ROA 进行解释。\n\n要求：\n- 如果只有一家公司成功获取数据，只做单公司解释。\n\
+            - 不要只重复表格数字。\n- 用普通用户能理解的语言说明这些指标代表什么。\n- 说明这些指标需要结合行业背景和财报原文理解。\n\n##\
+            \ 7. 成长性分析\n\n基于 Revenue Growth YoY、Earnings Growth YoY 进行解释。\n\n要求：\n\
+            - 不要预测未来增长率。\n- 不要预测未来股价。\n- 只解释当前 API 返回数据反映的历史同比变化。\n- 如果只有一家公司成功获取数据，只做单公司解释。\n\
+            \n## 8. 分析师评级与市场波动\n\n基于 analyst_rating_strong_buy、analyst_rating_buy、analyst_rating_hold、analyst_rating_sell、analyst_rating_strong_sell、beta、week_52_high、week_52_low\
+            \ 进行解释。\n\n【数据可用性检查】\n先检查每家公司的 analyst_rating_* 字段：\n- 若全部为 N/A：本章节仅基于\
+            \ beta 和 52 Week 区间进行描述，并在开头说明当前数据源未提供分析师评级数据。\n- 若有有效数值：才描述评级分布。\n\n\
+            要求：\n- 分析师评级只能表述为“第三方分析师评级分布”。\n- 不要把 Strong Buy 或 Buy 翻译成投资建议。\n- 不要说“市场建议买入”。\n\
+            - Beta 只能说明历史波动特征。\n- 52 Week High / Low 只能说明过去一年价格区间。\n- 不要预测未来走势。\n\n\
+            ## 9. 风险与局限性\n\n必须包括：\n- 数据来自公开金融 API，可能存在延迟、缺失或字段异常。\n- 公开金融 API（如 Alpha\
+            \ Vantage、FMP 等）存在调用频率和每日额度限制。\n- 单一 API 数据不足以支持完整投资决策。\n- 当前分析没有纳入宏观经济、竞争格局、管理层讨论、财报原文和最新新闻。\n\
+            - 不同行业公司不能只用单一指标比较。\n- 研究优先级评分只是辅助排序，不代表投资建议。\n- 本报告不构成投资建议。\n\n## 10.\
+            \ 后续研究问题\n\n生成 5 个问题，只能围绕公开信息：\n- 财报原文\n- 业务结构\n- 增长驱动\n- 风险因素\n- 竞争对手\n\
+            - 估值假设\n- 行业背景\n\n禁止生成关于“非公开信息”的问题。\n禁止要求预测未来股价、未来收益或未来增长率。\n不要问“是否高估或低估”，可以改成“与同行或行业数据相比处于什么水平”。\n\
+            \n## 11. 免责声明\n\n本报告仅用于公开金融信息整理和学习参考，不构成投资建议、买卖建议或收益承诺。研究优先级评分仅用于帮助用户确定后续研究顺序，不代表投资价值判断。投资决策应结合个人风险承受能力、完整财务资料和专业意见。"
+        selected: false
+        structured_output_enabled: false
+        title: Generate Comparison Report
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1778410069031'
+      position:
+        x: 3506.2015993416485
+        y: 517.197498352609
+      positionAbsolute:
+        x: 3506.2015993416485
+        y: 517.197498352609
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import json\n\n\ndef safe(value):\n    if value is None:\n        return\
+          \ \"N/A\"\n    return str(value)\n\n\ndef main(company_list) -> dict:\n\
+          \    success_items = []\n    failed_items = []\n\n    for item in company_list:\n\
+          \        if item.get(\"status\") == \"failed\" or item.get(\"error\"):\n\
+          \            failed_items.append(item)\n        else:\n            success_items.append(item)\n\
+          \n    # 1. 数据获取状态表\n    status_table = \"| 股票代码 | 公司名称 | 数据状态 | 说明 |\\n\"\
+          \n    status_table += \"|---|---|---|---|\\n\"\n\n    for item in success_items:\n\
+          \        status_table += (\n            f\"| {safe(item.get('symbol'))}\
+          \ \"\n            f\"| {safe(item.get('name'))} \"\n            f\"| 成功\
+          \ \"\n            f\"| - |\\n\"\n        )\n\n    for item in failed_items:\n\
+          \        status_table += (\n            f\"| {safe(item.get('symbol'))}\
+          \ \"\n            f\"| {safe(item.get('name'))} \"\n            f\"| 失败\
+          \ \"\n            f\"| {safe(item.get('error'))} |\\n\"\n        )\n\n \
+          \   status_table += \"\\n\"\n\n    # 2. 公司概览表\n    overview_table = \"|\
+          \ 公司名称 | 股票代码 | Sector | Industry | Market Cap | Revenue TTM | Latest Quarter\
+          \ |\\n\"\n    overview_table += \"|---|---|---|---|---|---|---|\\n\"\n\n\
+          \    if success_items:\n        for item in success_items:\n           \
+          \ overview_table += (\n                f\"| {safe(item.get('name'))} \"\n\
+          \                f\"| {safe(item.get('symbol'))} \"\n                f\"\
+          | {safe(item.get('sector'))} \"\n                f\"| {safe(item.get('industry'))}\
+          \ \"\n                f\"| {safe(item.get('market_cap'))} \"\n         \
+          \       f\"| {safe(item.get('revenue_ttm'))} \"\n                f\"| {safe(item.get('latest_quarter'))}\
+          \ |\\n\"\n            )\n    else:\n        overview_table += \"| 无成功数据\
+          \ | - | - | - | - | - | - |\\n\"\n\n    overview_table += \"\\n\"\n\n  \
+          \  # 3A. 估值与盈利能力表\n    valuation_profitability_table = (\n        \"| 股票代码\
+          \ | PE Ratio | Forward PE | PEG Ratio | EPS | Profit Margin | \"\n     \
+          \   \"Operating Margin | ROE | ROA |\\n\"\n    )\n    valuation_profitability_table\
+          \ += \"|---|---:|---:|---:|---:|---:|---:|---:|---:|\\n\"\n\n    if success_items:\n\
+          \        for item in success_items:\n            valuation_profitability_table\
+          \ += (\n                f\"| {safe(item.get('symbol'))} \"\n           \
+          \     f\"| {safe(item.get('pe_ratio'))} \"\n                f\"| {safe(item.get('forward_pe'))}\
+          \ \"\n                f\"| {safe(item.get('peg_ratio'))} \"\n          \
+          \      f\"| {safe(item.get('eps'))} \"\n                f\"| {safe(item.get('profit_margin'))}\
+          \ \"\n                f\"| {safe(item.get('operating_margin'))} \"\n   \
+          \             f\"| {safe(item.get('roe'))} \"\n                f\"| {safe(item.get('roa'))}\
+          \ |\\n\"\n            )\n    else:\n        valuation_profitability_table\
+          \ += \"| 无成功数据 | - | - | - | - | - | - | - | - |\\n\"\n\n    valuation_profitability_table\
+          \ += \"\\n\"\n\n    # 3B. 成长性与波动表\n    growth_risk_table = (\n        \"\
+          | 股票代码 | Revenue Growth YoY | Earnings Growth YoY | \"\n        \"52 Week\
+          \ High | 52 Week Low | Beta |\\n\"\n    )\n    growth_risk_table += \"|---|---:|---:|---:|---:|---:|\\\
+          n\"\n\n    if success_items:\n        for item in success_items:\n     \
+          \       growth_risk_table += (\n                f\"| {safe(item.get('symbol'))}\
+          \ \"\n                f\"| {safe(item.get('revenue_growth_yoy'))} \"\n \
+          \               f\"| {safe(item.get('earnings_growth_yoy'))} \"\n      \
+          \          f\"| {safe(item.get('week_52_high'))} \"\n                f\"\
+          | {safe(item.get('week_52_low'))} \"\n                f\"| {safe(item.get('beta'))}\
+          \ |\\n\"\n            )\n    else:\n        growth_risk_table += \"| 无成功数据\
+          \ | - | - | - | - | - |\\n\"\n\n    growth_risk_table += \"\\n\"\n\n   \
+          \ company_data_text = json.dumps(company_list, ensure_ascii=False, indent=2)\n\
+          \n    return {\n        \"company_data_text\": company_data_text,\n    \
+          \    \"status_table\": status_table,\n        \"overview_table\": overview_table,\n\
+          \        \"valuation_profitability_table\": valuation_profitability_table,\n\
+          \        \"growth_risk_table\": growth_risk_table,\n        \"success_count\"\
+          : len(success_items),\n        \"failed_count\": len(failed_items)\n   \
+          \ }"
+        code_language: python3
+        outputs:
+          company_data_text:
+            children: null
+            type: string
+          failed_count:
+            children: null
+            type: number
+          growth_risk_table:
+            children: null
+            type: string
+          overview_table:
+            children: null
+            type: string
+          status_table:
+            children: null
+            type: string
+          success_count:
+            children: null
+            type: number
+          valuation_profitability_table:
+            children: null
+            type: string
+        selected: false
+        title: Format Company Data
+        type: code
+        variables:
+        - value_selector:
+          - '1778473730240'
+          - output
+          value_type: array[object]
+          variable: company_list
+      height: 52
+      id: '1778420403446'
+      position:
+        x: 2564.0781974506217
+        y: 349.0913343943554
+      positionAbsolute:
+        x: 2564.0781974506217
+        y: 349.0913343943554
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1778410069031'
+          - text
+          value_type: string
+          variable: report_text
+        - value_selector:
+          - '1778420403446'
+          - company_data_text
+          value_type: string
+          variable: company_data_json
+        - value_selector:
+          - '1778423052604'
+          - scored_company_text
+          value_type: string
+          variable: scored_json
+        - value_selector:
+          - '1778420403446'
+          - success_count
+          value_type: number
+          variable: success_count
+        - value_selector:
+          - '1778420403446'
+          - failed_count
+          value_type: number
+          variable: failed_count
+        selected: false
+        title: 输出
+        type: end
+      height: 88
+      id: '1778420750020'
+      position:
+        x: 3898.4608935955403
+        y: 449.19749835260905
+      positionAbsolute:
+        x: 3898.4608935955403
+        y: 449.19749835260905
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import json\n\n\ndef to_float(value):\n    try:\n        if value in\
+          \ [None, \"\", \"None\", \"N/A\", \"-\"]:\n            return None\n   \
+          \     value = str(value).replace(\"%\", \"\").replace(\"T\", \"\").replace(\"\
+          B\", \"\").replace(\"M\", \"\")\n        return float(value)\n    except\
+          \ Exception:\n        return None\n\n\ndef normalize_positive(value, min_value,\
+          \ max_value):\n    if value is None:\n        return 0\n    if max_value\
+          \ == min_value:\n        return 50\n    score = (value - min_value) / (max_value\
+          \ - min_value) * 100\n    return max(0, min(100, score))\n\n\ndef normalize_negative(value,\
+          \ min_value, max_value):\n    if value is None:\n        return 0\n    if\
+          \ max_value == min_value:\n        return 50\n    score = (max_value - value)\
+          \ / (max_value - min_value) * 100\n    return max(0, min(100, score))\n\n\
+          \ndef main(company_list) -> dict:\n    success_items = [\n        item for\
+          \ item in company_list\n        if item.get(\"status\") == \"success\" and\
+          \ not item.get(\"error\")\n    ]\n\n    if not success_items:\n        return\
+          \ {\n            \"ranking_table\": \"没有成功获取数据的公司，无法生成研究优先级评分。\",\n    \
+          \        \"scored_company_text\": \"[]\"\n        }\n\n    metrics = []\n\
+          \    for item in success_items:\n        metrics.append({\n            \"\
+          symbol\": item.get(\"symbol\"),\n            \"name\": item.get(\"name\"\
+          ),\n            \"revenue_growth\": to_float(item.get(\"revenue_growth_yoy\"\
+          )),\n            \"earnings_growth\": to_float(item.get(\"earnings_growth_yoy\"\
+          )),\n            \"profit_margin\": to_float(item.get(\"profit_margin\"\
+          )),\n            \"operating_margin\": to_float(item.get(\"operating_margin\"\
+          )),\n            \"roe\": to_float(item.get(\"roe\")),\n            \"roa\"\
+          : to_float(item.get(\"roa\")),\n            \"pe\": to_float(item.get(\"\
+          pe_ratio\")),\n            \"forward_pe\": to_float(item.get(\"forward_pe\"\
+          )),\n            \"peg\": to_float(item.get(\"peg_ratio\")),\n         \
+          \   \"beta\": to_float(item.get(\"beta\"))\n        })\n\n    def get_range(key):\n\
+          \        values = [m[key] for m in metrics if m[key] is not None]\n    \
+          \    if not values:\n            return 0, 0\n        return min(values),\
+          \ max(values)\n\n    ranges = {\n        key: get_range(key)\n        for\
+          \ key in [\n            \"revenue_growth\",\n            \"earnings_growth\"\
+          ,\n            \"profit_margin\",\n            \"operating_margin\",\n \
+          \           \"roe\",\n            \"roa\",\n            \"pe\",\n      \
+          \      \"forward_pe\",\n            \"peg\",\n            \"beta\"\n   \
+          \     ]\n    }\n\n    scored = []\n\n    for item, m in zip(success_items,\
+          \ metrics):\n        growth_score = (\n            normalize_positive(m[\"\
+          revenue_growth\"], *ranges[\"revenue_growth\"]) * 0.5 +\n            normalize_positive(m[\"\
+          earnings_growth\"], *ranges[\"earnings_growth\"]) * 0.5\n        )\n\n \
+          \       profitability_score = (\n            normalize_positive(m[\"profit_margin\"\
+          ], *ranges[\"profit_margin\"]) * 0.3 +\n            normalize_positive(m[\"\
+          operating_margin\"], *ranges[\"operating_margin\"]) * 0.3 +\n          \
+          \  normalize_positive(m[\"roe\"], *ranges[\"roe\"]) * 0.2 +\n          \
+          \  normalize_positive(m[\"roa\"], *ranges[\"roa\"]) * 0.2\n        )\n\n\
+          \        valuation_score = (\n            normalize_negative(m[\"pe\"],\
+          \ *ranges[\"pe\"]) * 0.35 +\n            normalize_negative(m[\"forward_pe\"\
+          ], *ranges[\"forward_pe\"]) * 0.35 +\n            normalize_negative(m[\"\
+          peg\"], *ranges[\"peg\"]) * 0.30\n        )\n\n        risk_score = normalize_negative(m[\"\
+          beta\"], *ranges[\"beta\"])\n\n        total_score = (\n            growth_score\
+          \ * 0.30 +\n            profitability_score * 0.30 +\n            valuation_score\
+          \ * 0.25 +\n            risk_score * 0.15\n        )\n\n        scored.append({\n\
+          \            \"symbol\": item.get(\"symbol\"),\n            \"name\": item.get(\"\
+          name\"),\n            \"growth_score\": round(growth_score, 1),\n      \
+          \      \"profitability_score\": round(profitability_score, 1),\n       \
+          \     \"valuation_score\": round(valuation_score, 1),\n            \"risk_score\"\
+          : round(risk_score, 1),\n            \"total_score\": round(total_score,\
+          \ 1)\n        })\n\n    scored = sorted(scored, key=lambda x: x[\"total_score\"\
+          ], reverse=True)\n\n    ranking_table = \"| 排名 | 公司 | 股票代码 | 综合评分 | 成长性\
+          \ | 盈利能力 | 估值匹配 | 波动风险 |\\n\"\n    ranking_table += \"|---|---|---|---:|---:|---:|---:|---:|\\\
+          n\"\n\n    for idx, item in enumerate(scored, start=1):\n        ranking_table\
+          \ += (\n            f\"| {idx} \"\n            f\"| {item['name']} \"\n\
+          \            f\"| {item['symbol']} \"\n            f\"| {item['total_score']}\
+          \ \"\n            f\"| {item['growth_score']} \"\n            f\"| {item['profitability_score']}\
+          \ \"\n            f\"| {item['valuation_score']} \"\n            f\"| {item['risk_score']}\
+          \ |\\n\"\n        )\n\n    ranking_table += \"\\n\"\n\n    scored_company_text\
+          \ = json.dumps(scored, ensure_ascii=False, indent=2)\n\n    return {\n \
+          \       \"ranking_table\": ranking_table,\n        \"scored_company_text\"\
+          : scored_company_text\n    }"
+        code_language: python3
+        outputs:
+          ranking_table:
+            children: null
+            type: string
+          scored_company_text:
+            children: null
+            type: string
+        selected: false
+        title: Score Companies
+        type: code
+        variables:
+        - value_selector:
+          - '1778473730240'
+          - output
+          value_type: array[object]
+          variable: company_list
+      height: 52
+      id: '1778423052604'
+      position:
+        x: 3208.4608935955403
+        y: 533.197498352609
+      positionAbsolute:
+        x: 3208.4608935955403
+        y: 533.197498352609
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 43cd99a9-deef-4fc7-945d-d43c3b41420b
+            value: Demo Mode
+            varType: string
+            variable_selector:
+            - '1778402132438'
+            - data_mode
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: Use Demo Data?
+        type: if-else
+      height: 148
+      id: '1778473048535'
+      position:
+        x: 651.0696802045285
+        y: 590.165728274629
+      positionAbsolute:
+        x: 651.0696802045285
+        y: 590.165728274629
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(symbol_list: list) -> dict:\n    demo_db = {\n        \"NVDA\"\
+          : {\"symbol\": \"NVDA\", \"name\": \"NVIDIA Corporation\", \"status\": \"\
+          success\", \"sector\": \"TECHNOLOGY\", \"industry\": \"SEMICONDUCTORS\"\
+          , \"country\": \"USA\", \"currency\": \"USD\", \"latest_quarter\": \"2026-01-31\"\
+          , \"market_cap\": \"5.23T\", \"revenue_ttm\": \"215.94B\", \"gross_profit_ttm\"\
+          : \"153.46B\", \"ebitda\": \"133.23B\", \"pe_ratio\": \"43.83\", \"forward_pe\"\
+          : \"26.53\", \"peg_ratio\": \"0.683\", \"price_to_sales\": \"24.22\", \"\
+          price_to_book\": \"30.36\", \"eps\": \"4.91\", \"profit_margin\": \"55.60%\"\
+          , \"operating_margin\": \"65.00%\", \"roe\": \"101.50%\", \"roa\": \"51.20%\"\
+          , \"revenue_growth_yoy\": \"73.20%\", \"earnings_growth_yoy\": \"95.60%\"\
+          , \"analyst_target_price\": \"269.17\", \"analyst_rating_strong_buy\": \"\
+          9\", \"analyst_rating_buy\": \"48\", \"analyst_rating_hold\": \"2\", \"\
+          analyst_rating_sell\": \"1\", \"analyst_rating_strong_sell\": \"0\", \"\
+          week_52_high\": \"217.8\", \"week_52_low\": \"120.25\", \"beta\": \"2.244\"\
+          , \"description\": \"NVIDIA Corporation is a technology company focused\
+          \ on GPUs, accelerated computing, and AI infrastructure.\"},\n        \"\
+          AAPL\": {\"symbol\": \"AAPL\", \"name\": \"Apple Inc\", \"status\": \"success\"\
+          , \"sector\": \"TECHNOLOGY\", \"industry\": \"CONSUMER ELECTRONICS\", \"\
+          country\": \"USA\", \"currency\": \"USD\", \"latest_quarter\": \"2026-03-31\"\
+          , \"market_cap\": \"4.31T\", \"revenue_ttm\": \"451.44B\", \"gross_profit_ttm\"\
+          : \"216.07B\", \"ebitda\": \"159.98B\", \"pe_ratio\": \"35.47\", \"forward_pe\"\
+          : \"33.44\", \"peg_ratio\": \"2.571\", \"price_to_sales\": \"9.54\", \"\
+          price_to_book\": \"39.19\", \"eps\": \"8.27\", \"profit_margin\": \"27.20%\"\
+          , \"operating_margin\": \"32.30%\", \"roe\": \"141.50%\", \"roa\": \"26.20%\"\
+          , \"revenue_growth_yoy\": \"16.60%\", \"earnings_growth_yoy\": \"21.80%\"\
+          , \"analyst_target_price\": \"303.38\", \"analyst_rating_strong_buy\": \"\
+          7\", \"analyst_rating_buy\": \"25\", \"analyst_rating_hold\": \"14\", \"\
+          analyst_rating_sell\": \"1\", \"analyst_rating_strong_sell\": \"1\", \"\
+          week_52_high\": \"294.76\", \"week_52_low\": \"192.87\", \"beta\": \"1.065\"\
+          , \"description\": \"Apple Inc is a consumer electronics and software company\
+          \ with hardware, services, and ecosystem-driven revenue streams.\"},\n \
+          \       \"MSFT\": {\"symbol\": \"MSFT\", \"name\": \"Microsoft Corporation\"\
+          , \"status\": \"success\", \"sector\": \"TECHNOLOGY\", \"industry\": \"\
+          SOFTWARE - INFRASTRUCTURE\", \"country\": \"USA\", \"currency\": \"USD\"\
+          , \"latest_quarter\": \"2026-03-31\", \"market_cap\": \"3.15T\", \"revenue_ttm\"\
+          : \"261.80B\", \"gross_profit_ttm\": \"182.30B\", \"ebitda\": \"128.50B\"\
+          , \"pe_ratio\": \"34.21\", \"forward_pe\": \"30.10\", \"peg_ratio\": \"\
+          2.15\", \"price_to_sales\": \"12.03\", \"price_to_book\": \"11.52\", \"\
+          eps\": \"12.41\", \"profit_margin\": \"36.40%\", \"operating_margin\": \"\
+          44.60%\", \"roe\": \"38.20%\", \"roa\": \"19.80%\", \"revenue_growth_yoy\"\
+          : \"15.20%\", \"earnings_growth_yoy\": \"18.40%\", \"analyst_target_price\"\
+          : \"490.00\", \"analyst_rating_strong_buy\": \"12\", \"analyst_rating_buy\"\
+          : \"32\", \"analyst_rating_hold\": \"5\", \"analyst_rating_sell\": \"0\"\
+          , \"analyst_rating_strong_sell\": \"0\", \"week_52_high\": \"468.35\", \"\
+          week_52_low\": \"385.58\", \"beta\": \"0.896\", \"description\": \"Microsoft\
+          \ Corporation develops software, cloud services, and AI products including\
+          \ Azure, Office 365, and Copilot.\"},\n        \"GOOGL\": {\"symbol\": \"\
+          GOOGL\", \"name\": \"Alphabet Inc\", \"status\": \"success\", \"sector\"\
+          : \"TECHNOLOGY\", \"industry\": \"INTERNET CONTENT & INFORMATION\", \"country\"\
+          : \"USA\", \"currency\": \"USD\", \"latest_quarter\": \"2026-03-31\", \"\
+          market_cap\": \"2.18T\", \"revenue_ttm\": \"362.34B\", \"gross_profit_ttm\"\
+          : \"203.70B\", \"ebitda\": \"115.40B\", \"pe_ratio\": \"22.15\", \"forward_pe\"\
+          : \"19.80\", \"peg_ratio\": \"1.08\", \"price_to_sales\": \"6.02\", \"price_to_book\"\
+          : \"6.85\", \"eps\": \"8.04\", \"profit_margin\": \"28.60%\", \"operating_margin\"\
+          : \"32.10%\", \"roe\": \"32.40%\", \"roa\": \"18.50%\", \"revenue_growth_yoy\"\
+          : \"14.10%\", \"earnings_growth_yoy\": \"31.50%\", \"analyst_target_price\"\
+          : \"205.00\", \"analyst_rating_strong_buy\": \"15\", \"analyst_rating_buy\"\
+          : \"38\", \"analyst_rating_hold\": \"6\", \"analyst_rating_sell\": \"0\"\
+          , \"analyst_rating_strong_sell\": \"0\", \"week_52_high\": \"199.95\", \"\
+          week_52_low\": \"148.71\", \"beta\": \"1.052\", \"description\": \"Alphabet\
+          \ Inc operates Google Search, YouTube, Google Cloud, and related AI and\
+          \ advertising businesses.\"},\n        \"TSLA\": {\"symbol\": \"TSLA\",\
+          \ \"name\": \"Tesla Inc\", \"status\": \"success\", \"sector\": \"CONSUMER\
+          \ CYCLICAL\", \"industry\": \"AUTO MANUFACTURERS\", \"country\": \"USA\"\
+          , \"currency\": \"USD\", \"latest_quarter\": \"2026-03-31\", \"market_cap\"\
+          : \"1.05T\", \"revenue_ttm\": \"97.69B\", \"gross_profit_ttm\": \"17.89B\"\
+          , \"ebitda\": \"12.34B\", \"pe_ratio\": \"148.52\", \"forward_pe\": \"95.30\"\
+          , \"peg_ratio\": \"5.82\", \"price_to_sales\": \"10.75\", \"price_to_book\"\
+          : \"17.23\", \"eps\": \"2.24\", \"profit_margin\": \"7.30%\", \"operating_margin\"\
+          : \"8.20%\", \"roe\": \"12.80%\", \"roa\": \"5.10%\", \"revenue_growth_yoy\"\
+          : \"2.10%\", \"earnings_growth_yoy\": \"-18.50%\", \"analyst_target_price\"\
+          : \"290.00\", \"analyst_rating_strong_buy\": \"5\", \"analyst_rating_buy\"\
+          : \"14\", \"analyst_rating_hold\": \"18\", \"analyst_rating_sell\": \"8\"\
+          , \"analyst_rating_strong_sell\": \"3\", \"week_52_high\": \"358.64\", \"\
+          week_52_low\": \"138.80\", \"beta\": \"2.410\", \"description\": \"Tesla\
+          \ Inc designs and manufactures electric vehicles, energy storage systems,\
+          \ and solar products.\"},\n        \"AMZN\": {\"symbol\": \"AMZN\", \"name\"\
+          : \"Amazon.com Inc\", \"status\": \"success\", \"sector\": \"CONSUMER CYCLICAL\"\
+          , \"industry\": \"INTERNET RETAIL\", \"country\": \"USA\", \"currency\"\
+          : \"USD\", \"latest_quarter\": \"2026-03-31\", \"market_cap\": \"2.08T\"\
+          , \"revenue_ttm\": \"637.00B\", \"gross_profit_ttm\": \"305.00B\", \"ebitda\"\
+          : \"110.00B\", \"pe_ratio\": \"38.50\", \"forward_pe\": \"28.70\", \"peg_ratio\"\
+          : \"1.65\", \"price_to_sales\": \"3.27\", \"price_to_book\": \"8.42\", \"\
+          eps\": \"5.29\", \"profit_margin\": \"8.40%\", \"operating_margin\": \"\
+          11.20%\", \"roe\": \"23.50%\", \"roa\": \"8.10%\", \"revenue_growth_yoy\"\
+          : \"11.80%\", \"earnings_growth_yoy\": \"48.20%\", \"analyst_target_price\"\
+          : \"235.00\", \"analyst_rating_strong_buy\": \"18\", \"analyst_rating_buy\"\
+          : \"35\", \"analyst_rating_hold\": \"3\", \"analyst_rating_sell\": \"0\"\
+          , \"analyst_rating_strong_sell\": \"0\", \"week_52_high\": \"215.90\", \"\
+          week_52_low\": \"166.20\", \"beta\": \"1.158\", \"description\": \"Amazon.com\
+          \ Inc operates e-commerce, AWS cloud computing, digital advertising, and\
+          \ entertainment services.\"},\n        \"META\": {\"symbol\": \"META\",\
+          \ \"name\": \"Meta Platforms Inc\", \"status\": \"success\", \"sector\"\
+          : \"TECHNOLOGY\", \"industry\": \"INTERNET CONTENT & INFORMATION\", \"country\"\
+          : \"USA\", \"currency\": \"USD\", \"latest_quarter\": \"2026-03-31\", \"\
+          market_cap\": \"1.52T\", \"revenue_ttm\": \"164.50B\", \"gross_profit_ttm\"\
+          : \"132.80B\", \"ebitda\": \"72.50B\", \"pe_ratio\": \"25.30\", \"forward_pe\"\
+          : \"21.40\", \"peg_ratio\": \"1.12\", \"price_to_sales\": \"9.24\", \"price_to_book\"\
+          : \"8.15\", \"eps\": \"23.86\", \"profit_margin\": \"35.80%\", \"operating_margin\"\
+          : \"41.20%\", \"roe\": \"35.60%\", \"roa\": \"22.30%\", \"revenue_growth_yoy\"\
+          : \"22.10%\", \"earnings_growth_yoy\": \"37.50%\", \"analyst_target_price\"\
+          : \"680.00\", \"analyst_rating_strong_buy\": \"14\", \"analyst_rating_buy\"\
+          : \"40\", \"analyst_rating_hold\": \"5\", \"analyst_rating_sell\": \"1\"\
+          , \"analyst_rating_strong_sell\": \"0\", \"week_52_high\": \"640.62\", \"\
+          week_52_low\": \"442.30\", \"beta\": \"1.230\", \"description\": \"Meta\
+          \ Platforms Inc operates Facebook, Instagram, WhatsApp, and Reality Labs\
+          \ focusing on social media and the metaverse.\"},\n    }\n    output = []\n\
+          \    for sym in symbol_list:\n        if sym in demo_db:\n            output.append(demo_db[sym])\n\
+          \        else:\n            output.append({\"symbol\": sym, \"name\": \"\
+          N/A\", \"status\": \"failed\", \"error\": f\"Demo mode has no sample data\
+          \ for {sym}.\"})\n    return {\"output\": output}"
+        code_language: python3
+        outputs:
+          output:
+            children: null
+            type: array[object]
+        selected: false
+        title: Mock Company Data
+        type: code
+        variables:
+        - value_selector:
+          - '1778402402760'
+          - symbol_list
+          value_type: array[string]
+          variable: symbol_list
+      height: 52
+      id: '1778473215429'
+      position:
+        x: 947.0862926964161
+        y: 292.99081537171213
+      positionAbsolute:
+        x: 947.0862926964161
+        y: 292.99081537171213
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        output_type: array[object]
+        selected: false
+        title: 'Company Data Source '
+        type: variable-aggregator
+        variables:
+        - - '1778473215429'
+          - output
+        - - '1778407686281'
+          - output
+        - - '1778500000010'
+          - output
+      height: 135
+      id: '1778473730240'
+      position:
+        x: 2068.60224809913
+        y: 326.1504205036139
+      positionAbsolute:
+        x: 2068.60224809913
+        y: 326.1504205036139
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 788bad18-0c1d-447b-8122-a13514676c7f
+            value: FMP
+            varType: string
+            variable_selector:
+            - '1778402132438'
+            - data_mode
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: Use FMP?
+        type: if-else
+      height: 148
+      id: '1778500000001'
+      position:
+        x: 960
+        y: 590
+      positionAbsolute:
+        x: 960
+        y: 590
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        flatten_output: true
+        height: 225
+        is_parallel: false
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1778402402760'
+        - symbol_list
+        output_selector:
+        - '1778500000013'
+        - company_data
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1778500000010start
+        title: Iterate FMP
+        type: iteration
+        width: 2000
+      height: 225
+      id: '1778500000010'
+      position:
+        x: 1307
+        y: 750
+      positionAbsolute:
+        x: 1307
+        y: 750
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 2000
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1778500000010start
+      parentId: '1778500000010'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1331
+        y: 818
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        method: get
+        params: 'symbol:{{#1778500000010.item#}}
+
+          apikey:{{#env.FMP_API_KEY#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: FMP Get Profile
+        type: http-request
+        url: https://financialmodelingprep.com/stable/profile
+        variables: []
+      height: 137
+      id: '1778500000011'
+      parentId: '1778500000010'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 1435
+        y: 818
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        method: get
+        params: 'symbol:{{#1778500000010.item#}}
+
+          apikey:{{#env.FMP_API_KEY#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: FMP Get Ratios TTM
+        type: http-request
+        url: https://financialmodelingprep.com/stable/ratios-ttm
+        variables: []
+      height: 137
+      id: '1778500000012'
+      parentId: '1778500000010'
+      position:
+        x: 430
+        y: 68
+      positionAbsolute:
+        x: 1737
+        y: 818
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "import json\n\n\ndef to_float(value):\n    try:\n        if value in\
+          \ [None, \"\", \"None\", \"N/A\", \"-\"]:\n            return None\n   \
+          \     return float(value)\n    except Exception:\n        return None\n\n\
+          \ndef format_large_number(value):\n    num = to_float(value)\n    if num\
+          \ is None:\n        return \"N/A\"\n    if num >= 1_000_000_000_000:\n \
+          \       return f\"{num / 1_000_000_000_000:.2f}T\"\n    elif num >= 1_000_000_000:\n\
+          \        return f\"{num / 1_000_000_000:.2f}B\"\n    elif num >= 1_000_000:\n\
+          \        return f\"{num / 1_000_000:.2f}M\"\n    else:\n        return f\"\
+          {num:.2f}\"\n\n\ndef format_percent(value):\n    num = to_float(value)\n\
+          \    if num is None:\n        return \"N/A\"\n    return f\"{num * 100:.2f}%\"\
+          \n\n\ndef format_decimal(value, places=2):\n    num = to_float(value)\n\
+          \    if num is None:\n        return \"N/A\"\n    return f\"{num:.{places}f}\"\
+          \n\n\ndef pick(*candidates):\n    \"\"\"Return first non-None / non-empty\
+          \ value from list of (dict, key) pairs.\"\"\"\n    for source, key in candidates:\n\
+          \        if not isinstance(source, dict):\n            continue\n      \
+          \  val = source.get(key)\n        if val not in (None, \"\", \"None\", \"\
+          N/A\"):\n            return val\n    return None\n\n\ndef first_item(parsed):\n\
+          \    if isinstance(parsed, list) and parsed:\n        return parsed[0]\n\
+          \    if isinstance(parsed, dict):\n        return parsed\n    return {}\n\
+          \n\ndef safe_parse(text):\n    try:\n        return json.loads(text) if\
+          \ text else {}\n    except Exception:\n        return {}\n\n\ndef main(\n\
+          \    profile_response: str,\n    ratios_response: str,\n    key_metrics_response:\
+          \ str,\n    income_response: str,\n    income_growth_response: str,\n  \
+          \  symbol: str,\n) -> dict:\n    profile = first_item(safe_parse(profile_response))\n\
+          \    ratios = first_item(safe_parse(ratios_response))\n    key_metrics =\
+          \ first_item(safe_parse(key_metrics_response))\n    income = first_item(safe_parse(income_response))\n\
+          \    income_growth = first_item(safe_parse(income_growth_response))\n\n\
+          \    if not profile or not profile.get(\"symbol\"):\n        err_msg = \"\
+          FMP API returned no valid data. Check API key and symbol.\"\n        if\
+          \ isinstance(profile, dict) and profile.get(\"Error Message\"):\n      \
+          \      err_msg = profile[\"Error Message\"]\n        return {\n        \
+          \    \"company_data\": {\n                \"symbol\": symbol,\n        \
+          \        \"name\": \"N/A\",\n                \"status\": \"failed\",\n \
+          \               \"error\": err_msg,\n            }\n        }\n\n    # 52-week\
+          \ range parsing \"120.25-217.80\"\n    range_str = str(profile.get(\"range\"\
+          ) or \"\")\n    week_52_low = \"N/A\"\n    week_52_high = \"N/A\"\n    if\
+          \ \"-\" in range_str:\n        parts = range_str.split(\"-\")\n        if\
+          \ len(parts) == 2:\n            week_52_low = parts[0].strip()\n       \
+          \     week_52_high = parts[1].strip()\n\n    # Market cap: try multiple\
+          \ FMP field aliases\n    market_cap_raw = pick(\n        (profile, \"mktCap\"\
+          ),\n        (profile, \"marketCap\"),\n        (key_metrics, \"marketCapTTM\"\
+          ),\n        (key_metrics, \"marketCap\"),\n    )\n\n    # PE Ratio: ratios-ttm\
+          \ uses different field names across FMP versions\n    pe_ratio_raw = pick(\n\
+          \        (ratios, \"peRatioTTM\"),\n        (ratios, \"priceEarningsRatioTTM\"\
+          ),\n        (ratios, \"priceToEarningsRatioTTM\"),\n        (key_metrics,\
+          \ \"peRatioTTM\"),\n        (key_metrics, \"priceToEarningsRatioTTM\"),\n\
+          \    )\n\n    peg_ratio_raw = pick(\n        (ratios, \"pegRatioTTM\"),\n\
+          \        (ratios, \"priceEarningsToGrowthRatioTTM\"),\n        (key_metrics,\
+          \ \"pegRatioTTM\"),\n    )\n\n    price_to_sales_raw = pick(\n        (ratios,\
+          \ \"priceToSalesRatioTTM\"),\n        (ratios, \"priceSalesRatioTTM\"),\n\
+          \        (key_metrics, \"priceToSalesRatioTTM\"),\n    )\n\n    price_to_book_raw\
+          \ = pick(\n        (ratios, \"priceToBookRatioTTM\"),\n        (ratios,\
+          \ \"pbRatioTTM\"),\n        (ratios, \"priceBookValueRatioTTM\"),\n    \
+          \    (key_metrics, \"pbRatioTTM\"),\n        (key_metrics, \"priceToBookRatioTTM\"\
+          ),\n    )\n\n    roe_raw = pick(\n        (ratios, \"returnOnEquityTTM\"\
+          ),\n        (ratios, \"roeTTM\"),\n        (key_metrics, \"roeTTM\"),\n\
+          \        (key_metrics, \"returnOnEquityTTM\"),\n    )\n\n    roa_raw = pick(\n\
+          \        (ratios, \"returnOnAssetsTTM\"),\n        (ratios, \"roaTTM\"),\n\
+          \        (key_metrics, \"roaTTM\"),\n        (key_metrics, \"returnOnAssetsTTM\"\
+          ),\n    )\n\n    profit_margin_raw = pick(\n        (ratios, \"netProfitMarginTTM\"\
+          ),\n        (ratios, \"netIncomeMarginTTM\"),\n        (key_metrics, \"\
+          netProfitMarginTTM\"),\n    )\n\n    operating_margin_raw = pick(\n    \
+          \    (ratios, \"operatingProfitMarginTTM\"),\n        (ratios, \"operatingMarginTTM\"\
+          ),\n        (key_metrics, \"operatingProfitMarginTTM\"),\n    )\n\n    #\
+          \ Latest quarter from income statement date\n    latest_quarter = str(income.get(\"\
+          date\") or \"N/A\")\n\n    revenue_ttm = format_large_number(income.get(\"\
+          revenue\"))\n    gross_profit_ttm = format_large_number(income.get(\"grossProfit\"\
+          ))\n    ebitda = format_large_number(income.get(\"ebitda\") or income.get(\"\
+          EBITDA\"))\n    eps_raw = pick(\n        (income, \"eps\"),\n        (income,\
+          \ \"epsDiluted\"),\n        (profile, \"eps\"),\n    )\n\n    revenue_growth\
+          \ = format_percent(income_growth.get(\"growthRevenue\"))\n    earnings_growth\
+          \ = format_percent(\n        income_growth.get(\"growthNetIncome\") or income_growth.get(\"\
+          growthEPS\")\n    )\n\n    company_data = {\n        \"symbol\": profile.get(\"\
+          symbol\", symbol),\n        \"name\": profile.get(\"companyName\", \"N/A\"\
+          ),\n        \"status\": \"success\",\n        \"sector\": str(profile.get(\"\
+          sector\") or \"N/A\"),\n        \"industry\": str(profile.get(\"industry\"\
+          ) or \"N/A\"),\n        \"country\": str(profile.get(\"country\") or \"\
+          N/A\"),\n        \"currency\": str(profile.get(\"currency\") or \"N/A\"\
+          ),\n        \"latest_quarter\": latest_quarter,\n        \"market_cap\"\
+          : format_large_number(market_cap_raw),\n        \"revenue_ttm\": revenue_ttm,\n\
+          \        \"gross_profit_ttm\": gross_profit_ttm,\n        \"ebitda\": ebitda,\n\
+          \        \"pe_ratio\": format_decimal(pe_ratio_raw),\n        \"forward_pe\"\
+          : \"N/A\",\n        \"peg_ratio\": format_decimal(peg_ratio_raw, places=3),\n\
+          \        \"price_to_sales\": format_decimal(price_to_sales_raw),\n     \
+          \   \"price_to_book\": format_decimal(price_to_book_raw),\n        \"eps\"\
+          : format_decimal(eps_raw),\n        \"profit_margin\": format_percent(profit_margin_raw),\n\
+          \        \"operating_margin\": format_percent(operating_margin_raw),\n \
+          \       \"roe\": format_percent(roe_raw),\n        \"roa\": format_percent(roa_raw),\n\
+          \        \"revenue_growth_yoy\": revenue_growth,\n        \"earnings_growth_yoy\"\
+          : earnings_growth,\n        \"analyst_target_price\": \"N/A\",\n       \
+          \ \"analyst_rating_strong_buy\": \"N/A\",\n        \"analyst_rating_buy\"\
+          : \"N/A\",\n        \"analyst_rating_hold\": \"N/A\",\n        \"analyst_rating_sell\"\
+          : \"N/A\",\n        \"analyst_rating_strong_sell\": \"N/A\",\n        \"\
+          week_52_high\": week_52_high,\n        \"week_52_low\": week_52_low,\n \
+          \       \"beta\": format_decimal(profile.get(\"beta\"), places=3),\n   \
+          \     \"description\": (profile.get(\"description\", \"N/A\") or \"N/A\"\
+          )[:600],\n    }\n\n    return {\"company_data\": company_data}"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        outputs:
+          company_data:
+            children: null
+            type: object
+        selected: false
+        title: Clean FMP Data
+        type: code
+        variables:
+        - value_selector:
+          - '1778500000011'
+          - body
+          value_type: string
+          variable: profile_response
+        - value_selector:
+          - '1778500000012'
+          - body
+          value_type: string
+          variable: ratios_response
+        - value_selector:
+          - '1778500000014'
+          - body
+          value_type: string
+          variable: key_metrics_response
+        - value_selector:
+          - '1778500000015'
+          - body
+          value_type: string
+          variable: income_response
+        - value_selector:
+          - '1778500000016'
+          - body
+          value_type: string
+          variable: income_growth_response
+        - value_selector:
+          - '1778500000010'
+          - item
+          value_type: string
+          variable: symbol
+      height: 52
+      id: '1778500000013'
+      parentId: '1778500000010'
+      position:
+        x: 1638
+        y: 68
+      positionAbsolute:
+        x: 2945
+        y: 818
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        method: get
+        params: 'symbol:{{#1778500000010.item#}}
+
+          apikey:{{#env.FMP_API_KEY#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: FMP Get Key Metrics TTM
+        type: http-request
+        url: https://financialmodelingprep.com/stable/key-metrics-ttm
+        variables: []
+      height: 137
+      id: '1778500000014'
+      parentId: '1778500000010'
+      position:
+        x: 732
+        y: 68
+      positionAbsolute:
+        x: 2039
+        y: 818
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        method: get
+        params: 'symbol:{{#1778500000010.item#}}
+
+          apikey:{{#env.FMP_API_KEY#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: FMP Get Income Statement
+        type: http-request
+        url: https://financialmodelingprep.com/stable/income-statement
+        variables: []
+      height: 137
+      id: '1778500000015'
+      parentId: '1778500000010'
+      position:
+        x: 1034
+        y: 68
+      positionAbsolute:
+        x: 2341
+        y: 818
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1778500000010'
+        method: get
+        params: 'symbol:{{#1778500000010.item#}}
+
+          apikey:{{#env.FMP_API_KEY#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: FMP Get Income Growth
+        type: http-request
+        url: https://financialmodelingprep.com/stable/income-statement-growth
+        variables: []
+      height: 137
+      id: '1778500000016'
+      parentId: '1778500000010'
+      position:
+        x: 1336
+        y: 68
+      positionAbsolute:
+        x: 2643
+        y: 818
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    viewport:
+      x: -229.75630435423136
+      y: -120.61935320906673
+      zoom: 0.5147700417169983
+  rag_pipeline_variables: []

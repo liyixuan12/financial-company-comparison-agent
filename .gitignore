@@ -1,0 +1,47 @@
+# ─── Python ─────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 虚拟环境（永远不要提交）
+.venv/
+venv/
+env/
+ENV/
+
+# ─── 密钥与本地配置（永远不要提交）──────────
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# ─── 工具与测试 ─────────────────────────────
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ─── 构建产物 ───────────────────────────────
+dist/
+build/
+*.egg-info/
+
+# ─── 操作系统 / IDE ─────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ─── Jupyter ────────────────────────────────
+.ipynb_checkpoints/
+
+# ─── 日志与临时文件 ─────────────────────────
+*.log
+*.tmp
+.cache/
