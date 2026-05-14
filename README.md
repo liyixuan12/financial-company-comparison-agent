@@ -16,20 +16,9 @@
 
 ## 产品截图
 
-将截图导出为 PNG 或 WebP，放入 **`docs/images/`** 目录（与下方文件名一致即可；GitHub README 会自动渲染相对路径图片）。当前仓库已包含一套与下表同名的示例图，可直接 `git push`；若你更新了界面，覆盖同名文件即可。
+截图文件在 **`docs/images/`**。若要更新展示，用同名 PNG 覆盖后提交即可；若从 Dify 导出超大内联 SVG，可本地保存为 `dify-workflow-canvas.source.svg`（已在 `.gitignore` 中忽略，勿推送远程）。
 
-| 建议文件名 | 内容说明 |
-|-----------|----------|
-| `streamlit-home-sidebar.png` | 首页股票输入、运行模式与侧边栏 |
-| `streamlit-core-metrics.png` | 核心指标对比图表（柱状图 / 堆叠图等） |
-| `streamlit-radar-scores.png` | 研究优先级雷达图与评分表 |
-| `streamlit-ai-report.png` | AI 分析报告展开区域 |
-| `dify-workflow-canvas.png` | Dify Workflow 编排画布（推荐提交裁剪后的 PNG；若从 Dify 导出超大内联 SVG，可本地保存为 `dify-workflow-canvas.source.svg`，该文件已在 `.gitignore` 中忽略，勿推送到远程） |
-
-把文件放到仓库后，在 README 中可使用下面片段（路径已按上表写好；若你改用 WebP，把扩展名改为 `.webp` 即可）：
-
-```markdown
-### Streamlit 界面
+### Streamlit
 
 ![首页与侧边栏](docs/images/streamlit-home-sidebar.png)
 
@@ -39,33 +28,7 @@
 
 ![AI 分析报告](docs/images/streamlit-ai-report.png)
 
-### Dify 工作流
-
-![Dify Workflow 画布](docs/images/dify-workflow-canvas.png)
-```
-
-你也可以把多张图并排成一行（同一行内多个 `![...](...)`），例如：
-
-```markdown
-![首页](docs/images/streamlit-home-sidebar.png)
-![指标](docs/images/streamlit-core-metrics.png)
-```
-
-### 嵌入版（README 直接展示）
-
-下列图片路径与上表一致，已与文档一并维护；替换 `docs/images/` 下同名 PNG 后推送即可更新展示。
-
-### Streamlit 界面
-
-![首页与侧边栏](docs/images/streamlit-home-sidebar.png)
-
-![核心指标对比](docs/images/streamlit-core-metrics.png)
-
-![雷达图与评分](docs/images/streamlit-radar-scores.png)
-
-![AI 分析报告](docs/images/streamlit-ai-report.png)
-
-### Dify 工作流
+### Dify Workflow
 
 ![Dify Workflow 画布](docs/images/dify-workflow-canvas.png)
 
